@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PDF Viewer</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #202124;
+            font-family: Arial, sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* الشريط العلوي */
+        .toolbar {
+            height: 60px;
+            background: #303134;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            border-bottom: 1px solid #555;
+        }
+
+        .title {
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        button {
+            border: none;
+            background: #44474b;
+            color: white;
+            padding: 9px 13px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #5a5d62;
+        }
+
+        /* مكان عرض الـ PDF */
+        .viewer {
+            width: 100%;
+            height: calc(100vh - 60px);
+            background: #202124;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="toolbar">
+
+        <div class="title">
+            📄 ملف PDF
+        </div>
+
+        <div class="buttons">
+
+            <button onclick="zoomIn()">
+                🔍+
+            </button>
+
+            <button onclick="zoomOut()">
+                🔍-
+            </button>
+
+            <button onclick="fullscreen()">
+                ⛶ ملء الشاشة
+            </button>
+
+            <button onclick="downloadPDF()">
+                ⬇ تحميل
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="viewer" id="viewer">
+
+        <iframe
+            id="pdf"
+            src="file.pdf">
+        </iframe>
+
+    </div>
+
+
+    <script>
+
+        let zoom = 100;
+
+        function zoomIn() {
+            zoom += 10;
+            document.getElementById("pdf").style.transform =
+                `scale(${zoom / 100})`;
+
+            document.getElementById("pdf").style.transformOrigin =
+                "center top";
+        }
+
+        function zoomOut() {
+            if (zoom > 50) {
+                zoom -= 10;
+            }
+
+            document.getElementById("pdf").style.transform =
+                `scale(${zoom / 100})`;
+
+            document.getElementById("pdf").style.transformOrigin =
+                "center top";
+        }
+
+        function fullscreen() {
+            const viewer = document.getElementById("viewer");
+
+            if (viewer.requestFullscreen) {
+                viewer.requestFullscreen();
+            }
+        }
+
+        function downloadPDF() {
+            const link = document.createElement("a");
+
+            link.href = "file.pdf";
+            link.download = "file.pdf";
+
+            link.click();
+        }
+
+    </script>
+
+</body>
+</html>
+
+المهم: حط ملف الـPDF باسم "file.pdf" في نفس فولدر ملف الـHTML.
+
+ولو عايز، أقدر كمان أعملهولك عارض PDF كامل زي Google Drive بحيث الصفحات تظهر واحدة تحت التانية، مع رقم الصفحة والبحث والطباعة والتكبير بشكل مضبوط.
